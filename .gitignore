@@ -1,0 +1,29 @@
+# Build & Binary Artifacts
+build/
+out/
+bin/
+obj/
+*.dll
+*.exe
+*.lib
+*.exp
+
+# CMake 
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.cmake
+_deps/
+
+# Visual Studio / IDE
+.vs/
+*.user
+*.suo
+*.sln
+*.vcxproj
+*.filters
+
+# ImGui/Kiero/Minhook Temporary
+imgui.ini
+prompt.txt

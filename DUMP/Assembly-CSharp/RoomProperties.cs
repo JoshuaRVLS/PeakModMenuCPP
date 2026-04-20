@@ -1,0 +1,7 @@
+﻿using System;
+using UnityEngine;
+
+// Token: 0x02000150 RID: 336
+public class RoomProperties : MonoBehaviour
+{
+}
