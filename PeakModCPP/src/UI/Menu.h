@@ -19,8 +19,6 @@ namespace Menu {
     extern bool bFly;
     extern bool bTeleport;
     extern bool bPlayerESP;
-    extern bool bAntiKick;
-    extern bool bAntiInventoryStrip;
     extern bool bInventoryEditor;
 
     void Render();

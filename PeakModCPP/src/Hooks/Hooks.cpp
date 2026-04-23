@@ -1,5 +1,6 @@
 #include "Hooks.h"
 #include "UI/Menu.h"
+#include "UI/Theme.h"
 #include "Features/MonoAPI.h"
 #include "Features/PlayerESP.h"
 #include "MinHook.h"
@@ -127,6 +128,8 @@ namespace Hooks {
         }
         ImGuiIO& io = ImGui::GetIO();
         io.ConfigFlags = ImGuiConfigFlags_NoMouseCursorChange;
+
+        Theme::Apply();
 
         if (!ImGui_ImplWin32_Init(targetWindow)) {
             return false;

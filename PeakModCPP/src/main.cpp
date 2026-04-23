@@ -9,7 +9,6 @@
 #include "Features/SuperJump.h"
 #include "Features/Teleport.h"
 #include "Features/PlayerESP.h"
-#include "Features/NetworkSafety.h"
 #include "Features/MonoAPI.h"
 
 DWORD WINAPI MainThread(LPVOID lpParam) {
@@ -33,7 +32,6 @@ DWORD WINAPI MainThread(LPVOID lpParam) {
         manager.RegisterFeature(new SuperJump());
         manager.RegisterFeature(new Teleport());
         manager.RegisterFeature(new PlayerESP());
-        manager.RegisterFeature(new NetworkSafety());
         manager.RegisterFeature(new CursorBypass());
 
         manager.InitializeAll();

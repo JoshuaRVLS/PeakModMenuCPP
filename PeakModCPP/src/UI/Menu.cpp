@@ -21,8 +21,6 @@ namespace Menu {
     bool bFly = false;
     bool bTeleport = false;
     bool bPlayerESP = false;
-    bool bAntiKick = false;
-    bool bAntiInventoryStrip = false;
     bool bInventoryEditor = false;
 
     void Render() {
@@ -49,16 +47,14 @@ namespace Menu {
         activeCount += bFly ? 1 : 0;
         activeCount += bTeleport ? 1 : 0;
         activeCount += bPlayerESP ? 1 : 0;
-        activeCount += bAntiKick ? 1 : 0;
-        activeCount += bAntiInventoryStrip ? 1 : 0;
         activeCount += bInventoryEditor ? 1 : 0;
 
         ImGui::SetNextWindowSize(ImVec2(600, 560), ImGuiCond_FirstUseEver);
         ImGui::Begin("PEAK+ Control Center", &bShowMenu);
 
-        ImGui::TextColored(ImVec4(0.95f, 0.35f, 0.35f, 1.0f), "ENGINE: DX11/DX12 Interception");
+        ImGui::TextColored(ImVec4(0.784f, 0.157f, 0.290f, 1.0f), "PEAK+  //  Control Center");
         ImGui::SameLine();
-        ImGui::TextDisabled("| Active Features: %d", activeCount);
+        ImGui::TextDisabled("  v1.0   |   Active: %d", activeCount);
         ImGui::Separator();
 
         if (ImGui::BeginTabBar("PeakTabs")) {
@@ -91,14 +87,6 @@ namespace Menu {
                 ImGui::Checkbox("No Hot", &bNoHot);
                 ImGui::Checkbox("No Drowsy", &bNoDrowsy);
                 ImGui::Checkbox("No Curse", &bNoCurse);
-                ImGui::EndChild();
-
-                ImGui::Spacing();
-                ImGui::BeginChild("NetworkSafety", ImVec2(0, 95), true);
-                ImGui::Text("Networking Safety");
-                ImGui::Separator();
-                ImGui::Checkbox("Anti Kick (Disabled: stability mode)", &bAntiKick);
-                ImGui::Checkbox("Anti Inventory Strip (Block RPCRemoveItemFromSlot)", &bAntiInventoryStrip);
                 ImGui::EndChild();
 
                 ImGui::Spacing();
