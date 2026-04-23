@@ -21,6 +21,7 @@ namespace MonoAPI {
     mono_string_new_t mono_string_new = nullptr;
     mono_class_get_field_from_name_t mono_class_get_field_from_name = nullptr;
     mono_field_get_value_t mono_field_get_value = nullptr;
+    mono_object_unbox_t mono_object_unbox = nullptr;
 
     MonoDomain* root_domain = nullptr;
     MonoImage* main_assembly_image = nullptr;
@@ -72,6 +73,7 @@ namespace MonoAPI {
         mono_string_new = (mono_string_new_t)GetProcAddress(hMono, "mono_string_new");
         mono_class_get_field_from_name = (mono_class_get_field_from_name_t)GetProcAddress(hMono, "mono_class_get_field_from_name");
         mono_field_get_value = (mono_field_get_value_t)GetProcAddress(hMono, "mono_field_get_value");
+        mono_object_unbox = (mono_object_unbox_t)GetProcAddress(hMono, "mono_object_unbox");
 
         if (!mono_get_root_domain || !mono_thread_attach || !mono_class_from_name || !mono_compile_method) {
             std::cout << "[ENI-Mono] CRITICAL FAILURE: Could not bind core Mono exported functions!" << std::endl;
@@ -144,6 +146,21 @@ namespace MonoAPI {
 
     MonoMethod* GetMethod(const char* className, const char* methodName, int paramCount, const char* nameSpace) {
         MonoClass* klass = GetClass(className, nameSpace);
+        if (!klass || !mono_class_get_method_from_name) {
+            return nullptr;
+        }
+        return mono_class_get_method_from_name(klass, methodName, paramCount);
+    }
+
+    MonoClass* GetCoreClass(const char* className, const char* nameSpace) {
+        if (!initialized || !core_assembly_image || !mono_class_from_name) {
+            return nullptr;
+        }
+        return mono_class_from_name(core_assembly_image, nameSpace ? nameSpace : "UnityEngine", className);
+    }
+
+    MonoMethod* GetCoreMethod(const char* className, const char* methodName, int paramCount, const char* nameSpace) {
+        MonoClass* klass = GetCoreClass(className, nameSpace);
         if (!klass || !mono_class_get_method_from_name) {
             return nullptr;
         }

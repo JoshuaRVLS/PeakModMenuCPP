@@ -30,6 +30,7 @@ namespace MonoAPI {
     typedef MonoString* (__cdecl* mono_string_new_t)(MonoDomain* domain, const char* text);
     typedef MonoClassField* (__cdecl* mono_class_get_field_from_name_t)(MonoClass* klass, const char* name);
     typedef void (__cdecl* mono_field_get_value_t)(MonoObject* obj, MonoClassField* field, void* value);
+    typedef void* (__cdecl* mono_object_unbox_t)(MonoObject* obj);
     
     extern mono_get_root_domain_t mono_get_root_domain;
     extern mono_thread_attach_t mono_thread_attach;
@@ -47,12 +48,15 @@ namespace MonoAPI {
     extern mono_string_new_t mono_string_new;
     extern mono_class_get_field_from_name_t mono_class_get_field_from_name;
     extern mono_field_get_value_t mono_field_get_value;
+    extern mono_object_unbox_t mono_object_unbox;
 
     bool Initialize();
     bool AttachCurrentThread();
     void* GetMethodAddress(const char* className, const char* methodName, int paramCount = -1);
     MonoClass* GetClass(const char* className, const char* nameSpace = "");
     MonoMethod* GetMethod(const char* className, const char* methodName, int paramCount = -1, const char* nameSpace = "");
+    MonoClass* GetCoreClass(const char* className, const char* nameSpace = "UnityEngine");
+    MonoMethod* GetCoreMethod(const char* className, const char* methodName, int paramCount = -1, const char* nameSpace = "UnityEngine");
     void ApplyCursorState(bool visible, int lockState);
     MonoString* CreateString(const char* text);
     const char* GetExceptionString(MonoObject* exceptionObject);
