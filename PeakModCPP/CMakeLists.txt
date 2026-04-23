@@ -45,8 +45,13 @@ FetchContent_Declare(volk GIT_REPOSITORY https://github.com/zeux/volk.git GIT_TA
 FetchContent_MakeAvailable(volk)
 
 # --- Project Source Files ---
-# explicitly GLOBing source files to capture the newly created MonoAPI interface
-file(GLOB_RECURSE SRC_SOURCES src/*.cpp)
+# Exclude Injector from the DLL sources — it is a separate EXE target
+file(GLOB_RECURSE SRC_SOURCES
+    src/main.cpp
+    src/UI/*.cpp
+    src/Hooks/*.cpp
+    src/Features/*.cpp
+)
 
 set(SOURCES
     ${SRC_SOURCES}
@@ -70,3 +75,10 @@ target_include_directories(PeakModCPP PRIVATE
 
 # Link volk alongside our default windows libraries.
 target_link_libraries(PeakModCPP PRIVATE minhook volk user32.lib kernel32.lib d3d11.lib d3d12.lib dxguid.lib dxgi.lib)
+
+# --- Standalone Injector EXE ---
+add_executable(PeakModInjector src/Injector/main.cpp)
+target_link_libraries(PeakModInjector PRIVATE kernel32.lib)
+set_target_properties(PeakModInjector PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/Release
+)
