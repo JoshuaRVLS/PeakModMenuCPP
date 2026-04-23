@@ -5,6 +5,13 @@
 #include <iostream>
 
 namespace GodModeModule {
+    constexpr int kStatusHunger = 1;
+    constexpr int kStatusCold = 2;
+    constexpr int kStatusPoison = 3;
+    constexpr int kStatusCurse = 5;
+    constexpr int kStatusDrowsy = 6;
+    constexpr int kStatusHot = 8;
+
     typedef void(__fastcall* ActionDie_RunAction_t)(void* _this);
     ActionDie_RunAction_t oActionDie_RunAction = nullptr;
 
@@ -15,9 +22,21 @@ namespace GodModeModule {
     CharacterAfflictions_AddStatus_t oCharacterAfflictions_AddStatus = nullptr;
 
     bool __fastcall Hook_CharacterAfflictions_AddStatus(void* _this, int statusType, float amount, bool fromRPC, bool playEffects, bool notify) {
-        if (Menu::bGodMode && amount > 0.0f) {
-            return false;
+        if (amount > 0.0f) {
+            if (Menu::bGodMode) {
+                return false;
+            }
+
+            if ((Menu::bNoHunger && statusType == kStatusHunger) ||
+                (Menu::bNoPoison && statusType == kStatusPoison) ||
+                (Menu::bNoCold && statusType == kStatusCold) ||
+                (Menu::bNoHot && statusType == kStatusHot) ||
+                (Menu::bNoDrowsy && statusType == kStatusDrowsy) ||
+                (Menu::bNoCurse && statusType == kStatusCurse)) {
+                return false;
+            }
         }
+
         return oCharacterAfflictions_AddStatus(_this, statusType, amount, fromRPC, playEffects, notify);
     }
 
